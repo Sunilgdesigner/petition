@@ -19,9 +19,8 @@ body {
 
 /* HERO */
 .hero {
-  background: url("https://images.unsplash.com/photo-1529107386315-e1a2ed48a620")
-    center/cover no-repeat;
-  height: 55vh;
+  background: url("srisailamtemples.png") center/cover no-repeat;
+  min-height: 100vh;
   position: relative;
 }
 
@@ -35,13 +34,12 @@ body {
 .hero-content {
   position: relative;
   z-index: 1;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 40px;
+  padding: 40px;
   color: #fff;
-  max-width: 700px;
 }
 
 .hero h1 {
@@ -49,16 +47,71 @@ body {
   margin-bottom: 10px;
 }
 
-.hero p {
+.hero h3 {
   font-size: 1.2rem;
+  margin-bottom: 30px;
 }
 
-/* SECTION */
+/* CONTENT WRAP */
+.content-wrap {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* GALLERY / SLIDER */
+.gallery {
+  flex: 3;
+  position: relative;
+}
+
+.slider {
+  overflow: hidden;
+}
+
+.slide {
+  width: 100%;
+  display: none;
+  border-radius: 12px;
+}
+
+.slide.active {
+  display: block;
+  animation: fade 0.8s ease-in-out;
+}
+
+@keyframes fade {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  width: 60px;
+  color: #fff;
+  border: none;
+  font-size: 26px;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.nav.prev { left: 10px; }
+.nav.next { right: 10px; }
+
+.nav:hover {
+  background: rgba(0,0,0,0.9);
+}
+
+/* FORM SECTION */
 .section {
+  flex: 2;
   background: #fff;
-  padding: 40px 20px;
-  max-width: 1000px;
-  margin: 40px auto 40px;
+  color: #111;
+  padding: 30px 25px;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
@@ -69,7 +122,6 @@ body {
 
 /* FORM */
 form {
-  max-width: 400px;
   margin-top: 20px;
 }
 
@@ -113,13 +165,30 @@ footer {
   padding: 20px;
   background: #222;
   color: #fff;
-  font-size: 14px;
 }
 
 /* MOBILE */
 @media (max-width: 768px) {
+
+  .hero-content {
+    padding: 20px;
+  }
+
+  .content-wrap {
+    flex-direction: column;
+  }
+
   .hero h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+
+  .hero h3 {
+    font-size: 1rem;
+  }
+
+  .nav {
+    font-size: 22px;
+    padding: 6px 10px;
   }
 }
 </style>
@@ -127,41 +196,49 @@ footer {
 
 <body>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-content">
-    <h1>Raise Your Voice for Change</h1>
-    <p>Sign this petition and help us demand immediate action.</p>
+
+    <div style="text-align:center">
+	<img src="srisailam-temple.png" style="width: 140px;">
+      <h1 style="margin-top: 0px;">హిందూ ఆలయాల పవిత్రతను కాపాడుదాం</h1>
+      <h3>ఆన్లైన్ పిటిషన్ ను సంతకం చేద్దాము.</h3>
+    </div>
+
+    <div class="content-wrap">
+	  <div class="gallery slider">
+        <img src="img2.jpg" class="slide active">
+        <img src="img1.jpg" class="slide">
+
+        <button class="nav prev">&#10094;</button>
+        <button class="nav next">&#10095;</button>
+      </div>
+
+      <div class="section">
+        <h2>అంశం:</h2>
+        <h4 style="line-height: 34px;">
+          పవిత్రమైన శ్రీశైల క్షేత్రంలో పాతాళ గంగలో అక్రమంగా నిర్మించిన దర్గాను వెంటనే తొలగించాలి.
+        </h4>
+
+        <h2>Sign the Petition</h2>
+
+        <form id="petitionForm">
+          <input type="tel" name="phone" placeholder="Enter your phone number" required>
+
+          <label>
+            <input type="checkbox" name="consent" value="Yes" required>
+            I agree to be contacted regarding this petition
+          </label>
+
+          <button type="submit">Sign Now</button>
+        </form>
+
+        <div id="message"></div>
+      </div>
+
+    </div>
+
   </div>
-</div>
-
-<!-- CONTENT -->
-<div class="section">
-  <h2>Why This Matters</h2>
-  <p>
-    This issue affects thousands of people. By signing this petition,
-    you are standing up for justice, fairness, and accountability.
-  </p>
-
-  <h2>Sign the Petition</h2>
-
-  <form id="petitionForm">
-    <input
-      type="tel"
-      name="phone"
-      placeholder="Enter your phone number"
-      required
-    >
-
-    <label>
-      <input type="checkbox" required>
-      I agree to be contacted regarding this petition
-    </label>
-
-    <button type="submit">Sign Now</button>
-  </form>
-
-  <div id="message"></div>
 </div>
 
 <footer>
@@ -169,43 +246,54 @@ footer {
 </footer>
 
 <script>
+/* GOOGLE SHEETS SUBMISSION */
+const scriptURL = "https://script.google.com/macros/s/AKfycbwFZQim8Adydp6M6T7w37xaz9Ke6KcbxEDLdJdNR5EtnCE3igrpFLkZBcgyQCv2Nk4/exec";
 const form = document.getElementById("petitionForm");
 const message = document.getElementById("message");
 
-form.addEventListener("submit", async (e) => {
+form.addEventListener("submit", e => {
   e.preventDefault();
-
-  const phone = form.phone.value;
   message.textContent = "Submitting...";
 
-  try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbzX_08Qdg2-Zt-lg9iKnemm96EahbxXpgLOqQIFKnOMP-qlaMTsoawfWyE7PjvCPEB_/exec",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ phone })
-      }
-    );
-
-    const result = await response.json();
-
-    if (result.result === "success") {
-      message.textContent = "✅ Thank you for signing the petition!";
-      form.reset();
-    } else {
-      message.textContent = "❌ Submission failed. Try again.";
-    }
-  } catch (error) {
-    message.textContent = "❌ Network error. Please try again.";
-  }
+  fetch(scriptURL, {
+    method: "POST",
+    body: new FormData(form)
+  })
+  .then(() => {
+    message.textContent = "✅ Thank you for signing the petition!";
+    form.reset();
+  })
+  .catch(() => {
+    message.textContent = "❌ Something went wrong. Try again.";
+  });
 });
+</script>
+
+<script>
+/* SLIDER LOGIC */
+const slides = document.querySelectorAll(".slide");
+let currentIndex = 0;
+
+function showSlide(index) {
+  slides.forEach(slide => slide.classList.remove("active"));
+  slides[index].classList.add("active");
+}
+
+document.querySelector(".next").addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % slides.length;
+  showSlide(currentIndex);
+});
+
+document.querySelector(".prev").addEventListener("click", () => {
+  currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+  showSlide(currentIndex);
+});
+
+setInterval(() => {
+  currentIndex = (currentIndex + 1) % slides.length;
+  showSlide(currentIndex);
+}, 4000);
 </script>
 
 </body>
 </html>
-
-
-
-
