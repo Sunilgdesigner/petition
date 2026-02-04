@@ -179,16 +179,15 @@ form.addEventListener("submit", async (e) => {
   message.textContent = "Submitting...";
 
   try {
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbw4oiEVIkTsrBCdjCBpVpBVJop6t1a26bO9koFsUAEgGyvr1pwYAn4ntAYlHF3yjaSx/exec",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ phone })
-      }
-    );
+    const response = await fetch("https://script.google.com/macros/s/AKfycbw4oiEVIkTsrBCdjCBpVpBVJop6t1a26bO9koFsUAEgGyvr1pwYAn4ntAYlHF3yjaSx/exec", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    phone: document.querySelector("input[name='phone']").value
+  })
+});
 
     const result = await response.json();
 
@@ -206,4 +205,5 @@ form.addEventListener("submit", async (e) => {
 
 </body>
 </html>
+
 
